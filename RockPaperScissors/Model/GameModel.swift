@@ -13,4 +13,8 @@ protocol GameModel {
 
 class RockPaperScissors: GameModel {
 	// Implement model
+    
+    var gamePhase: GamePhase = .fight
+    var playerOneSelection: Symbol?
+    var playerTwoSelection: Symbol?
 }
