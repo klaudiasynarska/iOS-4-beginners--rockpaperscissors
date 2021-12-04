@@ -15,7 +15,7 @@ struct GameView: View {
 		ZStack {
 			Color.black.edgesIgnoringSafeArea(.all)
 			VStack(spacing: 5) {
-				OpponentView(opponentValue: "❔")
+                OpponentView(opponentValue: viewModel.opponentOption)
                     .overlay(alignment: .topLeading) { Text("Points: " + viewModel.opponentPoints).padding().foregroundColor(.white) }
                 PlayerView(selection: $viewModel.playerOption, values: viewModel.possibleOptions)
                     .overlay(alignment: .topLeading) { Text("Points: " + viewModel.playerPoints).padding().foregroundColor(.white) }

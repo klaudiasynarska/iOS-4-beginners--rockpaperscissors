@@ -14,13 +14,17 @@ class GameViewModel: ObservableObject {
 		self.model = model
 	}
 	
+    static private let opponentUnknownValue: String = "❔"
+    
 	private let model: GameModel
 
     @Published var playerOption: String? {
         didSet {
-            model.updatePlayerOneSelection(playerOption)
+            model.updatePlayerSelection(playerOption)
         }
     }
+    
+    @Published var opponentOption: String = GameViewModel.opponentUnknownValue
     
     @Published var playerPoints: String = ""
     @Published var opponentPoints: String = ""
@@ -30,9 +34,10 @@ class GameViewModel: ObservableObject {
     }
     
     func fightPressed() {
-        model.makeMoveByPlayerTwo()
+        model.makeMoveByOpponent()
+        opponentOption = model.opponentSelection?.rawValue ?? GameViewModel.opponentUnknownValue
         model.checkResult()
-        playerPoints = String(model.playerOnePoints)
-        opponentPoints = String(model.playerTwoPoints)
+        playerPoints = String(model.playerPoints)
+        opponentPoints = String(model.opponentPoints)
     }
 }
