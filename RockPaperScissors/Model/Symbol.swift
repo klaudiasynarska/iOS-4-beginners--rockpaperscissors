@@ -7,8 +7,12 @@
 
 import Foundation
 
-enum Symbol {
-    case rock
-    case paper
-    case scissors
+enum Symbol: String {
+    case rock = "🪨"
+    case paper = "📜"
+    case scissors = "✂️"
+    
+    static var all: [Symbol] {
+        return [.rock, .paper, .scissors]
+    }
 }
