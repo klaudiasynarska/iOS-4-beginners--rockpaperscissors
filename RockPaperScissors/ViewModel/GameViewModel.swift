@@ -26,8 +26,10 @@ class GameViewModel: ObservableObject {
     
     @Published var opponentOption: String = GameViewModel.opponentUnknownValue
     
-    @Published var playerPoints: String = ""
-    @Published var opponentPoints: String = ""
+    @Published var playerPoints: String = "Points: 0"
+    @Published var opponentPoints: String = "Points: 0"
+    
+    @Published var buttonTitle: String = "Fight ⚔️"
     
     var possibleOptions: [String] {
         return model.allOptions.map { option in option.rawValue }
@@ -36,8 +38,31 @@ class GameViewModel: ObservableObject {
     func fightPressed() {
         model.makeMoveByOpponent()
         opponentOption = model.opponentSelection?.rawValue ?? GameViewModel.opponentUnknownValue
+        
         model.checkResult()
-        playerPoints = String(model.playerPoints)
-        opponentPoints = String(model.opponentPoints)
+
+        playerPoints = formatPointsString(value: model.playerPoints)
+        opponentPoints = formatPointsString(value: model.opponentPoints)
+        buttonTitle = formatButtonTitle(gamePhase: model.gamePhase)
+    }
+    
+    private func formatPointsString(value: Int) -> String {
+        return "Points: " + String(value)
+    }
+    
+    private func formatButtonTitle(gamePhase: GamePhase) -> String {
+        switch gamePhase {
+        case .fight:
+            return "Fight ⚔️"
+        case .result(let gameResult):
+            switch gameResult {
+            case .win:
+                return "You won 👑"
+            case .tie:
+                return "It's a tie 👔"
+            case .lost:
+                return "You lost 😭"
+            }
+        }
     }
 }

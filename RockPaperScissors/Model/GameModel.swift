@@ -12,12 +12,15 @@ protocol GameModel {
     var playerPoints: Int { get }
     var opponentPoints: Int { get }
     var opponentSelection: Symbol? { get }
+    var gamePhase: GamePhase { get }
     func updatePlayerSelection(_ value: String?)
     func makeMoveByOpponent()
     func checkResult()
 }
 
 class RockPaperScissors: GameModel {
+    
+    let gameRules: GameRules = StandardRules()
     
     var gamePhase: GamePhase = .fight
     var playerSelection: Symbol?
@@ -42,10 +45,15 @@ class RockPaperScissors: GameModel {
     }
     
     func checkResult() {
-        // calculate the result
-        // and update players' points
+        guard let playerSelection = playerSelection,
+              let opponentSelection = opponentSelection else {
+            return
+        }
+
+        let points = gameRules.calculate(playerOption: playerSelection, opponentOption: opponentSelection)
         
-        playerPoints += 1
-        opponentPoints += 2
+        playerPoints += points.playerPoints
+        opponentPoints += points.opponentPoints
+        gamePhase = .result(points.result)
     }
 }

@@ -9,5 +9,5 @@ import Foundation
 
 enum GamePhase {
     case fight
-    case result
+    case result(GameResult)
 }

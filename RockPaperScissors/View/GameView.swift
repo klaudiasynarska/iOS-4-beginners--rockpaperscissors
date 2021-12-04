@@ -16,11 +16,11 @@ struct GameView: View {
 			Color.black.edgesIgnoringSafeArea(.all)
 			VStack(spacing: 5) {
                 OpponentView(opponentValue: viewModel.opponentOption)
-                    .overlay(alignment: .topLeading) { Text("Points: " + viewModel.opponentPoints).padding().foregroundColor(.white) }
+                    .overlay(alignment: .topLeading) { Text(viewModel.opponentPoints).padding().foregroundColor(.white) }
                 PlayerView(selection: $viewModel.playerOption, values: viewModel.possibleOptions)
-                    .overlay(alignment: .topLeading) { Text("Points: " + viewModel.playerPoints).padding().foregroundColor(.white) }
+                    .overlay(alignment: .topLeading) { Text(viewModel.playerPoints).padding().foregroundColor(.white) }
 			}
-			Button("Fight ⚔️") {
+            Button(viewModel.buttonTitle) {
                 viewModel.fightPressed()
             }
 				.font(.largeTitle)
