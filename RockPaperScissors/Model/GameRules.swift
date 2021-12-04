@@ -14,11 +14,11 @@ struct Points {
 }
 
 protocol GameRules {
-    func calculate(playerOption: Symbol, opponentOption: Symbol) -> Points
+    func calculate(playerOption: Option, opponentOption: Option) -> Points
 }
 
 class StandardRules: GameRules {
-    func calculate(playerOption: Symbol, opponentOption: Symbol) -> Points {
+    func calculate(playerOption: Option, opponentOption: Option) -> Points {
         if playerOption == opponentOption {
             return Points(playerPoints: 0, opponentPoints: 0, result: .tie)
         }

@@ -15,8 +15,6 @@ class GameViewModel: ObservableObject {
 	}
 	
     static private let opponentUnknownValue: String = "❔"
-    
-	private let model: GameModel
 
     @Published var playerOption: String? {
         didSet {
@@ -25,18 +23,26 @@ class GameViewModel: ObservableObject {
     }
     
     @Published var opponentOption: String = GameViewModel.opponentUnknownValue
-    
     @Published var playerPoints: String = "Points: 0"
     @Published var opponentPoints: String = "Points: 0"
-    
     @Published var buttonTitle: String = "Fight ⚔️"
     
     var possibleOptions: [String] {
         return model.allOptions.map { option in option.rawValue }
     }
     
+    private let model: GameModel
+    
     func fightPressed() {
-        model.makeMoveByOpponent()
+        if case .fight = model.gamePhase {
+            makeAFight()
+        } else {
+            reset()
+        }
+    }
+    
+    private func makeAFight() {
+        model.updateOpponentSelection()
         opponentOption = model.opponentSelection?.rawValue ?? GameViewModel.opponentUnknownValue
         
         model.checkResult()
@@ -44,6 +50,13 @@ class GameViewModel: ObservableObject {
         playerPoints = formatPointsString(value: model.playerPoints)
         opponentPoints = formatPointsString(value: model.opponentPoints)
         buttonTitle = formatButtonTitle(gamePhase: model.gamePhase)
+    }
+    
+    private func reset() {
+        model.reset()
+        buttonTitle = formatButtonTitle(gamePhase: model.gamePhase)
+        playerOption = nil
+        opponentOption = GameViewModel.opponentUnknownValue
     }
     
     private func formatPointsString(value: Int) -> String {
